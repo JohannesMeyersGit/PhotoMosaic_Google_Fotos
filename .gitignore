@@ -1,0 +1,155 @@
+# Ignore data files
+*.csv
+*.json
+*.xml
+*.yaml
+*.yml
+*.xls
+*.xlsx
+*.tsv
+*.txt
+*.md
+*.html
+*.pickle
+*.pkl
+*.joblib
+
+# Ignore image files
+*.jpg
+*.png
+
+# Ignore video files
+*.mp4
+*.avi
+
+# Ignore audio files
+*.mp3
+*.wav
+
+# Ignore binary files
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.gz
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore files that might contain sensitive information
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+*.der
+*.csr
+*.jks
+*.keystore
+*.p7b
+*.p7r
+*.p7c
+*.p7m
+*.p7s
+*.p8
+
+# Ignore files that might contain credentials
+*.env
+*.env.*
+*.pem
+
+# Ignore numpy and pandas cache files
+*.npy
+*.npz
+*.pkl
+*.h5
+*.hdf5
+*.feather
+*.parquet
+*.arrow
+*.joblib
+*.zarr
+*.msgpack
+*.stata
+*.dta
+*.sas7bdat
+*.xpt
+*.sav
+*.zsav
+*.mtx
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore Python bytecode files
+__pycache__
+
+# Ignore virtual environment files
+venv
+env
+ENV
+.venv
+.ENV
+envs
+.venvs
+.ENVs
+.conda
+.venvrc
+
+# Ignore pipenv files
+Pipfile
+Pipfile.lock
+
+# Ignore poetry files
+poetry.lock
+pyproject.toml
+
+# Ignore vscode files
+.vscode
+
+# Ignore pycharm files
+.idea
+
+# Ignore jupyter files
+.jupyter
+
+# pytorch and tensorflow files
+*.pth
+*.h5
+*.ckpt
+*.pb
+*.pt
+*.onnx
+*.tflite
+*.mlmodel
+
+# Ignore model files
+*.model
+*.model.*
+*.model.h5
+*.model.json
+*.model.yaml
+*.model.yml
+*.model.pt
+*.model.onnx
+*.model.tflite
+*.model.mlmodel
+
+# Ignore dataset folders
+**/dataset/
+**/dataset
+**/data/
+**/data
+
+
