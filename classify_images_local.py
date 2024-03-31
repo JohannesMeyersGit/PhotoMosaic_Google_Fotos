@@ -53,6 +53,9 @@ im = transforms.ToTensor()(im).unsqueeze(0) # convert to tensor and add batch di
 with torch.no_grad():
     im = im.to(device)
     output = model(im)
+    # get model output from the last convolutional layer
+    output2 = output.squeeze().cpu()
+    
     
 # get the class labels from the imagenet classes from  https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json 3.5k
 with open('imagenet_class_index.json') as f:
@@ -85,14 +88,6 @@ plt.figure()
 plt.title(class_label[1])
 plt.imshow(plt.imread(test_im))
 plt.show()
-
-# transfer learning: https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
-
-# transfer learn the model to classify images from the album Guate 2024 and save the model to disk for later use
-
-# train the model to detect sunsets and sunrises in the images from the album Guate 2024 and save the model to disk for later use
-
-# image ids for sunsets and sunrises in the album Guate 2024
 
 
 
