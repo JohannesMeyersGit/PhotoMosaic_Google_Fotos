@@ -27,5 +27,8 @@ Photo mosaic generator for a given google fotos folder to generate a photo mosai
 
 ## Example Images
 Attached an example of the input and output of the script using the default parameters. The images are downscaled to 600x800 and blured to save space and preserve privacy.
-|![](https://github.com/JohannesMeyersGit/Photo_Mosaic_Google_Fotos/blob/main/orgImage/blurredImage_test.png)| ![](https://github.com/JohannesMeyersGit/Photo_Mosaic_Google_Fotos/blob/main/orgImage/blurredImage_mosaic_image_20.png)|
 |*Blured and downscaled input image to be mosaiced ;)* | *Output mosaic image*|
+|------------------------------------------------------|----------------------|
+|![](https://github.com/JohannesMeyersGit/Photo_Mosaic_Google_Fotos/blob/main/orgImage/blurredImage_test.png)| ![](https://github.com/JohannesMeyersGit/Photo_Mosaic_Google_Fotos/blob/main/orgImage/blurredImage_mosaic_image_20.png)|
+|------------------------------------------------------|----------------------|
+
