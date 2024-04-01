@@ -6,7 +6,7 @@ Photo mosaic generator for a given google fotos folder to generate a photo mosai
 - Get client secret json and Oauth token from google cloud  
 
 
-## Usage of the mosaic photos cli interface
+## Usage of the mosaic photos CLI interface
 
 1. Prepare tile folder by downloading the photos which should be the tiles of your photo mosaic to a folder e.g. tile_images using the access_google_fotos script or manually
 2. Prepare images folder by adding the photos which should be transfered into a mosaic style into a second folder e.g. original_images
@@ -25,4 +25,7 @@ Photo mosaic generator for a given google fotos folder to generate a photo mosai
 | --save_rgb_values       | True  | Bool to enable saving of rgb values of all your tile images to speedup processing of multiple mosaic images  |
 | --save_tile_stack       | True  | Bool to enable saving of precalculated tiles for given size of all your tile images to speedup processing of multiple mosaic images  |
 
-
+## Example Images
+Attached an example of the input and output of the script using the default parameters. The images are downscaled to 600x800 and blured to save space and preserve privacy.
+!orgImage\blurredImage_test.png !orgImage\blurredImage_mosaic_image_20.png
+*Blured and downscaled input image to be mosaiced ;)  * | *Output mosaic image*
