@@ -17,16 +17,23 @@ im = Image.open(r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240319_
 
 org_im = Image.open(r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240310_101847.jpg')
 
+list_of_ims = [r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240308_095344.jpg',r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240309_153856.jpg',r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240310_061607.jpg',r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240310_101838.jpg'
+               ,r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240313_064724.jpg', r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240314_170443.jpg', r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240319_060718.jpg',r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240319_060836.jpg'
+               ,r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240319_062843.jpg',r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240319_071632.jpg', r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240320_180148.jpg', r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\20240321_181036.jpg'
+               ,r'D:\PythonCode\Photo_Mosaic_Google_Fotos\cache\images\IMG_20240322_223939.jpg']
+
 
 m,n,c = np.array(org_im).shape
 print('Shape of the original image:', m,n,c)  # Shape of the original image: 2268 4032 3
 
 # set the size of the mosaic tiles
-tile_size = 25 # size of the mosaic tiles --|> 50x50 pixels
-N_random_neighbors = 20 # number of random nearest neighbors to choose from the KDTree
+tile_size = 30 # size of the mosaic tiles --|> 50x50 pixels
+N_random_neighbors = 40 # number of random nearest neighbors to choose from the KDTree
 use_alpha = True # use alpha blending to blend the mosaic image with the original image
-alpha = 0.7 # alpha value for blending the mosaic image with the original image to increase the color correctness of the mosaic image
+alpha = 0.9 # alpha value for blending the mosaic image with the original image to increase the color correctness of the mosaic image
 precalculate_tiles = True # precalculate the rgb values of the images and downsample the images to the tile size for faster processing
+
+add_letters = False # add letters to the original image 
 
 # resize the original image to a multiple of the tile size
 m = m - m % tile_size
@@ -118,11 +125,11 @@ rgb_values_norm = rgb_values / np.linalg.norm(rgb_values, axis=0)
 cosine_sim = cosine_similarity(N_most_common_colors_norm, rgb_values_norm.T)
 
 # remove the 20% most similar colors
-cosine_sim[cosine_sim < 0.9] = 0
+cosine_sim[cosine_sim > 0.9] = 0
 
 # get the 10 most different colors from the N most common colors
 
-N_random_colors = rgb_values[:, np.argsort(np.max(cosine_sim, axis=0))[::-10]]
+N_random_colors = rgb_values[:, np.argsort(np.min(cosine_sim, axis=0))[::10]]
 
 
 # generate letters as org image for testing purposes
@@ -149,22 +156,18 @@ colors = {
     '2': N_random_colors.T[7].tolist(),
     '4': N_random_colors.T[8].tolist()
 }
+if add_letters == True:
+    # Colorize the letters
+    cv2.putText(org_im, 'G', (n//2 - int(2.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['G'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, 'u', (n//2 - int(1.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['u'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, 'a', (n//2 - int(0.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['a'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, 't', (n//2 + int(0.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['t'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, 'e', (n//2 + int(1.2*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['e'], thickness, cv2.LINE_AA)
 
-# Colorize the letters
-cv2.putText(org_im, 'G', (n//2 - int(2.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['G'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, 'u', (n//2 - int(1.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['u'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, 'a', (n//2 - int(0.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['a'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, 't', (n//2 + int(0.5*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['t'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, 'e', (n//2 + int(1.2*letter_spacing), m//2 - int(line_spacing*0.25)), font, font_scale, colors['e'], thickness, cv2.LINE_AA)
-
-cv2.putText(org_im, '2', (n//2 - 2*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['2'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, '0', (n//2 - 1*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['0'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, '2', (n//2 + 0*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['2'], thickness, cv2.LINE_AA)
-cv2.putText(org_im, '4', (n//2 + 1*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['4'], thickness, cv2.LINE_AA)
-
-# alpha blend the image with the original image
-
-alpha = 1
+    cv2.putText(org_im, '2', (n//2 - 2*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['2'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, '0', (n//2 - 1*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['0'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, '2', (n//2 + 0*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['2'], thickness, cv2.LINE_AA)
+    cv2.putText(org_im, '4', (n//2 + 1*letter_spacing, m//2 + int(line_spacing*0.75)), font, font_scale, colors['4'], thickness, cv2.LINE_AA)
 
 # show image using matplotlib
 plt.figure()
@@ -202,54 +205,62 @@ kdtree = cKDTree(rgb_values.T)
 # get N nearest neighbors for each pixel in the original image and create the mosaic image
 
 # create a blank image to store the mosaic image with the same size as the original image
-mosaic_im = np.zeros((m, n, c))
+
 
 # loop through each tile in the original image and get the nearest neighbor from the rgb values
 
 # add tqdm progress bar
 
-PBar = tqdm.tqdm(total=num_tiles_x*num_tiles_y)
-
-
-# get the average rgb value of the tiles using numpy mean function and block reduce
-
-Avgs = block_reduce(np.array(org_im), (tile_size, tile_size, 1), np.mean)
-
-# loop through each tile in the original image and get the nearest neighbor from the rgb values
+PBar = tqdm.tqdm(total=No_of_ims)
 
 
 
 
+for k,im_path in enumerate(list_of_ims):
+    org_im = Image.open(im_path)
+    m,n,c = np.array(org_im).shape
+    # resize the original image to a multiple of the tile size
+    m = m - m % tile_size
+    n = n - n % tile_size
+    org_im = org_im.resize((n, m))
+    m,n,c = np.array(org_im).shape
 
+    # calculate the number of tiles in the x and y directions
+    num_tiles_x = n // tile_size
+    num_tiles_y = m // tile_size
 
+    name_of_image = os.path.basename(im_path)
+    # get the average rgb value of the tiles using numpy mean function and block reduce
 
-for l in range(num_tiles_y):
-    for j in range(num_tiles_x):
-        # get the rgb values of the current tile
-        tile_avg = Avgs[l,j,:]
-        # get N nearest neighbors for the tile average color
-        _, idx = kdtree.query(tile_avg, N_random_neighbors)
-        # pick a random nearest neighbor from the N nearest neighbors
-        idx = np.random.choice(idx)
-        # get the nearest neighbor image
-        nn_im = tile_ims[:, :, :, idx]
-        # paste the nearest neighbor image to the mosaic image
-        mosaic_im[l*tile_size:(l+1)*tile_size, j*tile_size:(j+1)*tile_size, :] = np.array(nn_im)
-        
+    Avgs = block_reduce(np.array(org_im), (tile_size, tile_size, 1), np.mean)
+    mosaic_im = np.zeros((m, n, c))
+    for l in range(num_tiles_y):
+        for j in range(num_tiles_x):
+            # get the rgb values of the current tile
+            tile_avg = Avgs[l,j,:]
+            # get N nearest neighbors for the tile average color
+            _, idx = kdtree.query(tile_avg, N_random_neighbors)
+            # pick a random nearest neighbor from the N nearest neighbors
+            idx = np.random.choice(idx)
+            # get the nearest neighbor image
+            nn_im = tile_ims[:, :, :, idx]
+            # paste the nearest neighbor image to the mosaic image
+            mosaic_im[l*tile_size:(l+1)*tile_size, j*tile_size:(j+1)*tile_size, :] = np.array(nn_im)
+            
 
-        
-        
-        PBar.update(1)
-        
-# blend the mosaic image with the original image using the alpha value
-if use_alpha == True:
-    if alpha is None or alpha > 1:
-        alpha = 0.7
-    mosaic_im = alpha*mosaic_im + (1-alpha)*np.array(org_im)
+            
+            
+    PBar.update(1)
+            
+    # blend the mosaic image with the original image using the alpha value
+    if use_alpha == True:
+        if alpha is None or alpha > 1:
+            alpha = 0.7
+        mosaic_im = alpha*mosaic_im + (1-alpha)*np.array(org_im)
 
-# save the mosaic image to a file using the tile size and the original image name
-mosaic_im = Image.fromarray(mosaic_im.astype(np.uint8))
-mosaic_im.save('mosaic_image_'+str(tile_size)+'_.jpg')
+    # save the mosaic image to a file using the tile size and the original image name
+    mosaic_im = Image.fromarray(mosaic_im.astype(np.uint8))
+    mosaic_im.save('mosaic_'+str(tile_size)+'_'+name_of_image)
 
 
 
