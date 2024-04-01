@@ -21,7 +21,7 @@ class PhotoMosaic:
         self.use_alpha = True # use alpha blending
         self.preserve_original_image_size = True # preserve the original image size
         self.name_tile_stack = 'tile_stack'+str(self.tile_size)+'.npy' # name of the file to save the tile stack
-        self.rgb_values_file = 'rgb_values'+str(self.tile_size)+'.npy' # name of the file to save the rgb values
+        self.rgb_values_file = 'rgb_values'+str(self.tile_size)+'.npy' # name of the file to save the rgb values        
         self.No_of_org_ims = 1 # number of images to create the mosaic default one image
         self.No_of_tile_ims = 1 # number of tile images to create the mosaic default one image
         self.list_of_ims = [] # list of images to create the mosaic tiles from
@@ -168,6 +168,9 @@ class PhotoMosaic:
         
         if args.size_of_tile is not None: 
             self.tile_size = args.size_of_tile
+            self.name_tile_stack = 'tile_stack'+str(self.tile_size)+'.npy' # name of the file to save the tile stack
+            self.rgb_values_file = 'rgb_values'+str(self.tile_size)+'.npy' # name of the file to save the rgb values
+      
         if args.N_random_neighbors is not None:
             self.N_random_neighbors = args.N_random_neighbors
         if args.alpha is not None:

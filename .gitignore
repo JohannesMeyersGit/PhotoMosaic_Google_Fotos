@@ -16,7 +16,6 @@
 
 # Ignore image files
 *.jpg
-*.png
 
 # Ignore video files
 *.mp4
